@@ -1,6 +1,7 @@
 import meow from "meow";
 import { ExitError, InternalError } from "@changesets/errors";
 import { error } from "@changesets/logger";
+import { findRootSync } from "@manypkg/find-root";
 import { format } from "util";
 import { run } from "./run";
 
@@ -63,7 +64,7 @@ const { input, flags } = meow(
   }
 );
 
-const cwd = process.cwd();
+const cwd = findRootSync(process.cwd());
 
 run(input, flags, cwd).catch((err) => {
   if (err instanceof InternalError) {
